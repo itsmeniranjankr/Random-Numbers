@@ -18,7 +18,7 @@
       animation: backgroundAnimation 5s ease infinite; /* Dynamic background animation */
       transition: background 0.5s ease;
     }
-    
+
     /* Background gradient animation */
     @keyframes backgroundAnimation {
       0% {
@@ -57,7 +57,7 @@
       font-weight: 700;
       text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
     }
-    
+
     label {
       margin: 10px 0 5px;
       font-size: 1.1rem;
@@ -73,13 +73,13 @@
       border-radius: 8px;
       font-size: 1rem;
     }
-    
+
     input:focus {
       outline: none;
       border-color: #00c853;
       box-shadow: 0 0 5px rgba(0, 200, 83, 0.5);
     }
-    
+
     button {
       padding: 12px 20px;
       background-color: #007a3d;
@@ -92,19 +92,23 @@
       width: 100%;
       transition: background-color 0.3s;
     }
-    
+
     button:hover {
       background-color: #00662f;
     }
 
     p {
       font-size: 1.5rem;
-      color: #fff;
+      color: transparent;
       margin-top: 20px;
       font-weight: 600;
       position: relative;
       display: inline-block;
       opacity: 0; /* Start hidden */
+      background: linear-gradient(to right, #000000, #00c853); /* Black to green gradient */
+      background-clip: text;
+      -webkit-background-clip: text; /* For Safari */
+      transition: opacity 0.5s ease-out; /* For fading effect */
     }
 
     /* Bounce effect for the random number */
@@ -126,6 +130,11 @@
 
     .fallingNumber {
       animation: fallBounce 1s ease-out forwards;
+      opacity: 1; /* Ensure it's visible before starting animation */
+    }
+
+    .faded {
+      opacity: 0; /* Fade out after animation */
     }
   </style>
 </head>
@@ -139,7 +148,7 @@
     <button onclick="generateRandomNumber()">Generate Random Number</button>
     <p id="randomNumber"></p>
   </div>
-  
+
   <script>
     function generateRandomNumber() {
       var min = parseInt(document.getElementById("min").value);
@@ -150,19 +159,26 @@
         alert("Please enter valid numbers.");
         return;
       }
-      
+
       if (min >= max) {
         alert("Min value must be less than max value.");
         return;
       }
-      
-      var randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-      
-      // Create the falling number effect
-      randomNumberElement.textContent = "Random Number: " + randomNumber;
-      randomNumberElement.classList.remove("fallingNumber"); // Reset animation
-      void randomNumberElement.offsetWidth; // Trigger reflow to restart animation
-      randomNumberElement.classList.add("fallingNumber");
+
+      // Fade out the random number before generating a new one
+      randomNumberElement.classList.add("faded");
+
+      // Set a timeout to allow fading before displaying the next number
+      setTimeout(function() {
+        var randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        // Create the falling number effect
+        randomNumberElement.textContent = "Random Number: " + randomNumber;
+        randomNumberElement.classList.remove("faded"); // Reset fade-out class
+        randomNumberElement.classList.remove("fallingNumber"); // Reset animation
+        void randomNumberElement.offsetWidth; // Trigger reflow to restart animation
+        randomNumberElement.classList.add("fallingNumber");
+      }, 500); // Delay for fading effect before generating the next number
     }
   </script>
 </body>
