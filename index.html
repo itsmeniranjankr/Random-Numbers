@@ -125,6 +125,19 @@
       }
     }
 
+    /* Bulging effect on the container */
+    @keyframes bulgeEffect {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05); /* Bulge the container */
+      }
+      100% {
+        transform: scale(1); /* Return to normal size */
+      }
+    }
+
     .fallingNumber {
       animation: fallBounce 1s ease-out forwards;
       opacity: 1; /* Ensure it's visible before starting animation */
@@ -132,6 +145,10 @@
 
     .faded {
       opacity: 0; /* Fade out after animation */
+    }
+
+    .bulge {
+      animation: bulgeEffect 0.5s ease forwards;
     }
   </style>
 </head>
@@ -151,6 +168,7 @@
       var min = parseInt(document.getElementById("min").value);
       var max = parseInt(document.getElementById("max").value);
       var randomNumberElement = document.getElementById("randomNumber");
+      var container = document.querySelector('.container');
 
       if (isNaN(min) || isNaN(max)) {
         alert("Please enter valid numbers.");
@@ -175,6 +193,12 @@
         randomNumberElement.classList.remove("fallingNumber"); // Reset animation
         void randomNumberElement.offsetWidth; // Trigger reflow to restart animation
         randomNumberElement.classList.add("fallingNumber");
+
+        // Trigger the bulge effect on the container
+        container.classList.remove("bulge");
+        void container.offsetWidth; // Trigger reflow to restart animation
+        container.classList.add("bulge");
+
       }, 500); // Delay for fading effect before generating the next number
     }
   </script>
