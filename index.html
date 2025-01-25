@@ -96,10 +96,32 @@
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       color: #333;
       margin-top: 20px;
       font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Bounce effect for the random number */
+    @keyframes fallBounce {
+      0% {
+        transform: translateY(-200px);
+      }
+      50% {
+        transform: translateY(40px);
+      }
+      70% {
+        transform: translateY(-20px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .fallingNumber {
+      animation: fallBounce 1s ease-out forwards;
     }
   </style>
 </head>
@@ -118,7 +140,8 @@
     function generateRandomNumber() {
       var min = parseInt(document.getElementById("min").value);
       var max = parseInt(document.getElementById("max").value);
-      
+      var randomNumberElement = document.getElementById("randomNumber");
+
       if (isNaN(min) || isNaN(max)) {
         alert("Please enter valid numbers.");
         return;
@@ -131,7 +154,11 @@
       
       var randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
       
-      document.getElementById("randomNumber").textContent = "Random Number: " + randomNumber;
+      // Create the falling number effect
+      randomNumberElement.textContent = "Random Number: " + randomNumber;
+      randomNumberElement.classList.remove("fallingNumber"); // Reset animation
+      void randomNumberElement.offsetWidth; // Trigger reflow to restart animation
+      randomNumberElement.classList.add("fallingNumber");
     }
   </script>
 </body>
