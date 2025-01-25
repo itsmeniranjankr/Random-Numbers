@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Random Number Generator</title>
   <style>
     body {
@@ -12,18 +14,40 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      transition: background 0.5s ease;
     }
     
     .container {
-      background-color: #ffffff;
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
+      background-size: 400% 400%;
+      animation: gradientAnimation 5s ease infinite;
       padding: 30px 40px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
       border-radius: 12px;
       text-align: center;
       width: 100%;
       max-width: 400px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
+    /* Gradient animation */
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
     h1 {
       color: #333;
       margin-bottom: 20px;
